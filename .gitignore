@@ -19,19 +19,21 @@ env/
 # --- FinAI artefacts ---------------------------------------------------------
 # On a local machine FINAI_HOME defaults to the repo root, so these generated
 # directories live here and must never be committed.
-models/
-checkpoints/
-adapters/
-merged/
-runs/
-cache/
-datasets/
-logs/*
-outputs/*
+# NOTE: leading "/" anchors each pattern to the repository root, so they do NOT
+# accidentally match same-named source packages (e.g. src/models/).
+/models/
+/checkpoints/
+/adapters/
+/merged/
+/runs/
+/cache/
+/datasets/
+/logs/*
+/outputs/*
 
 # Keep the placeholder files (and the curated sample data).
-!logs/.gitkeep
-!outputs/.gitkeep
+!/logs/.gitkeep
+!/outputs/.gitkeep
 
 # --- Large weight / data files anywhere --------------------------------------
 *.safetensors
