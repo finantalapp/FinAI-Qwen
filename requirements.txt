@@ -1,0 +1,36 @@
+# FinAI-Qwen dependencies.
+#
+# Version floors target the latest stable releases known to work together. For
+# fully reproducible Colab runs you may pin exact versions (replace ">=" with
+# "==") once you have a working environment. On Colab, torch is pre-installed;
+# pip will keep the existing build if it already satisfies the floor below.
+
+# --- Core deep-learning stack -------------------------------------------------
+torch>=2.4.0
+transformers>=4.46.0
+accelerate>=1.0.0
+peft>=0.13.0
+trl>=0.12.0
+bitsandbytes>=0.44.0
+datasets>=3.0.0
+
+# --- Tokenization & serialization --------------------------------------------
+sentencepiece>=0.2.0
+safetensors>=0.4.5
+tokenizers>=0.20.0
+
+# --- Hub, UI & monitoring -----------------------------------------------------
+huggingface_hub>=0.26.0
+gradio>=4.44.0
+tensorboard>=2.17.0
+
+# --- System metrics -----------------------------------------------------------
+psutil>=6.0.0
+
+# --- Development / testing ----------------------------------------------------
+pytest>=8.0.0
+
+# --- Optional: flash-attention-2 ----------------------------------------------
+# Only builds on Ampere-or-newer GPUs (A100/L4) and takes several minutes.
+# The project auto-detects it and falls back to PyTorch SDPA when absent.
+#   pip install flash-attn --no-build-isolation

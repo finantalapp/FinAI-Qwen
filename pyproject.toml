@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "finai-qwen"
+version = "0.1.0"
+description = "Production-ready Qwen2.5 serving and QLoRA fine-tuning toolkit for the FinAI platform."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "FinAI" }]
+keywords = ["qwen", "qlora", "llm", "fine-tuning", "finance", "transformers"]
+
+# requirements.txt is the authoritative install list (it also pins dev tools and
+# documents the optional flash-attn extra). The runtime subset is mirrored here
+# so `pip install .` works without the file.
+dependencies = [
+    "torch>=2.4.0",
+    "transformers>=4.46.0",
+    "accelerate>=1.0.0",
+    "peft>=0.13.0",
+    "trl>=0.12.0",
+    "bitsandbytes>=0.44.0",
+    "datasets>=3.0.0",
+    "sentencepiece>=0.2.0",
+    "safetensors>=0.4.5",
+    "tokenizers>=0.20.0",
+    "huggingface_hub>=0.26.0",
+    "gradio>=4.44.0",
+    "tensorboard>=2.17.0",
+    "psutil>=6.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.6.0", "black>=24.0.0", "mypy>=1.11.0"]
+
+[tool.setuptools]
+py-modules = ["chat"]
+
+[tool.setuptools.packages.find]
+include = ["config*", "src*", "scripts*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
+
+[tool.black]
+line-length = 110
+target-version = ["py310", "py311"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]  # line length handled by black
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_ignores = true
+ignore_missing_imports = true

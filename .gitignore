@@ -1,0 +1,46 @@
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# --- Environments ------------------------------------------------------------
+.venv/
+venv/
+env/
+.env
+
+# --- FinAI artefacts ---------------------------------------------------------
+# On a local machine FINAI_HOME defaults to the repo root, so these generated
+# directories live here and must never be committed.
+models/
+checkpoints/
+adapters/
+merged/
+runs/
+cache/
+datasets/
+logs/*
+outputs/*
+
+# Keep the placeholder files (and the curated sample data).
+!logs/.gitkeep
+!outputs/.gitkeep
+
+# --- Large weight / data files anywhere --------------------------------------
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.pth
+*.ckpt
+
+# --- OS ----------------------------------------------------------------------
+.DS_Store
+Thumbs.db
