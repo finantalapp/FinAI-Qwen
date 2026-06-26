@@ -75,20 +75,32 @@ class InferenceEngine:
         return msgs
 
     def build_inputs(self, messages: Conversation, system_prompt: str | None) -> dict:
-        """Tokenise a conversation into model-ready, device-placed tensors."""
-        import torch
+        """Tokenise a conversation into model-ready, device-placed tensors.
 
+        Returns a dict with ``input_ids`` and ``attention_mask``. Recent
+        ``transformers`` versions return a ``BatchEncoding`` from
+        ``apply_chat_template`` when ``return_dict=True``; older versions only
+        return the ids tensor, which we wrap with an all-ones mask.
+        """
         conversation = self._with_system(messages, system_prompt)
-        input_ids = self.tokenizer.apply_chat_template(
-            conversation,
-            add_generation_prompt=True,
-            return_tensors="pt",
-        )
-        attention_mask = torch.ones_like(input_ids)
-        return {
-            "input_ids": input_ids.to(self.device),
-            "attention_mask": attention_mask.to(self.device),
-        }
+        try:
+            encoded = self.tokenizer.apply_chat_template(
+                conversation,
+                add_generation_prompt=True,
+                return_tensors="pt",
+                return_dict=True,
+            )
+            inputs = dict(encoded)
+        except TypeError:
+            # Older transformers without ``return_dict`` support.
+            import torch
+
+            input_ids = self.tokenizer.apply_chat_template(
+                conversation, add_generation_prompt=True, return_tensors="pt"
+            )
+            inputs = {"input_ids": input_ids, "attention_mask": torch.ones_like(input_ids)}
+
+        return {key: value.to(self.device) for key, value in inputs.items()}
 
     def _generation_kwargs(self, settings: GenerationSettings) -> dict:
         kwargs = settings.to_kwargs()
