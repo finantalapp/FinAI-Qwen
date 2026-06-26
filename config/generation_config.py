@@ -12,9 +12,11 @@ from dataclasses import dataclass, field
 from typing import Any
 
 DEFAULT_SYSTEM_PROMPT = (
-    "You are FinAI, a helpful, accurate and concise financial-domain "
-    "assistant. Answer clearly, show your reasoning when it helps, and say "
-    "when you are unsure instead of inventing facts."
+    "أنت FinAI، مساعد مالي متخصص فقط.\n"
+    "يجب أن تكون جميع الإجابات باللغة العربية أو الانجليزية فقط.\n"
+    "ممنوع استخدام الصينية.\n"
+    "قدم إجابات دقيقة ومنظمة وبأسلوب احترافي مالي.\n"
+    "إذا لم تكن متأكداً، قل ذلك صراحة."
 )
 
 
@@ -43,8 +45,8 @@ class GenerationSettings:
     """Sampling parameters for a single generation request."""
 
     max_new_tokens: int = field(default_factory=lambda: _env_int("FINAI_MAX_NEW_TOKENS", 1024))
-    temperature: float = field(default_factory=lambda: _env_float("FINAI_TEMPERATURE", 0.7))
-    top_p: float = field(default_factory=lambda: _env_float("FINAI_TOP_P", 0.8))
+    temperature: float = field(default_factory=lambda: _env_float("FINAI_TEMPERATURE", 0.5))
+    top_p: float = field(default_factory=lambda: _env_float("FINAI_TOP_P", 0.9))
     top_k: int = field(default_factory=lambda: _env_int("FINAI_TOP_K", 20))
     repetition_penalty: float = field(default_factory=lambda: _env_float("FINAI_REPETITION_PENALTY", 1.05))
     do_sample: bool = True
